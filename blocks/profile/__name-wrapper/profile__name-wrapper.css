@@ -5,7 +5,7 @@
   margin-bottom: 16px;
 }
 
-@media (max-width: 649px) {
+@media (max-width: 662px) {
   .profile__name-wrapper {
     column-gap: 10px;
     margin-bottom: 14px;
