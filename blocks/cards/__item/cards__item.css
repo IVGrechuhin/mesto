@@ -1,0 +1,7 @@
+.cards__item {
+  width: 282px;
+  margin: 0;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
