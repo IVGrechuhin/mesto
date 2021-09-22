@@ -1,0 +1,7 @@
+.input-form {
+  width: 358px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  /* padding: 34px 36px 37px; */
+}
