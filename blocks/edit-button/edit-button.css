@@ -11,7 +11,7 @@
   transition: opacity 0.4s ease;
 }
 
-@media (max-width: 649px) {
+@media (max-width: 662px) {
   .edit-button {
     width: 18px;
     height: 18px;
