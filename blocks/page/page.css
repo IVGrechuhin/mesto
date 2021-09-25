@@ -5,6 +5,8 @@
   margin: 0 auto;
   min-height: 1000px;
   font-family: "Inter", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (max-width: 960px) {
