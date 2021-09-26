@@ -11,6 +11,9 @@
   border-bottom: 1px rgba(0, 0, 0, 0.2) solid;
 }
 
+.input-form__item:nth-child(2) {
+  margin-bottom: 30px;
+}
 .input-form__item:focus {
   outline: 2px solid rgba(101, 91, 236, 0.253);
 }
