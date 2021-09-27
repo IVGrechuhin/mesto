@@ -12,14 +12,6 @@
 
 @media (max-width: 740px) {
   .profile__name {
-    max-width: 255px;
-    font-size: 36px;
-    line-height: 40px;
-  }
-}
-
-@media (max-width: 710px) {
-  .profile__name {
     max-width: 190px;
     font-size: 27px;
     line-height: 33px;
