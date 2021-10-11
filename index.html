@@ -32,9 +32,9 @@
         <p class="footer__copyright">&#169; 2021 Mesto Russia</p>
       </footer>
     </div>
-    <div class="popup">
+    <div class="popup popup_content_edit-profile">
       <div class="popup__container">
-        <form class="input-form" name="editProfile">
+        <form class="input-form input-form_content_edit-profile" name="editProfile">
           <h2 class="input-form__title">Редактировать профиль</h2>
           <input type="text" name="userName" class="input-form__item input-form__item_user_name" />
           <input type="text" name="userJob" class="input-form__item input-form__item_user_job" />
@@ -43,15 +43,25 @@
         <button type="button" class="popup__close-button"></button>
       </div>
     </div>
-    <div class="add-place-popup">
-      <div class="add-place-popup__container">
-        <form class="add-place-form" name="addPlace">
-          <h2 class="add-place-form__title">Новое место</h2>
-          <input type="text" name="placeName" class="add-place-form__item add-place-form__item_place_name" />
-          <input type="text" name="placeLink" class="add-place-form__item add-place-form__item_place_link" />
-          <input type="submit" class="add-place-form__save-button" value="Создать" />
+    <div class="popup popup_content_add-place">
+      <div class="popup__container">
+        <form class="input-form input-form_content_add-place" name="addPlace">
+          <h2 class="input-form__title">Новое место</h2>
+          <input
+            type="text"
+            name="placeName"
+            placeholder="Название"
+            class="input-form__item input-form__item_place_name"
+          />
+          <input
+            type="text"
+            name="placeLink"
+            placeholder="Ссылка на картинку"
+            class="input-form__item input-form__item_place_link"
+          />
+          <input type="submit" class="input-form__save-button" value="Создать" />
         </form>
-        <button type="button" class="add-place-popup__close-button"></button>
+        <button type="button" class="popup__close-button"></button>
       </div>
     </div>
     <template id="card">
@@ -61,6 +71,7 @@
           <h2 class="cards__name">Таганай</h2>
           <button type="button" class="cards__like-button"></button>
         </div>
+        <button type="button" class="cards__del-button"></button>
       </li>
     </template>
     <script src="./scripts/index.js"></script>

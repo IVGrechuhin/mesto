@@ -24,51 +24,84 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-const popup = document.querySelector('.popup');
+const popupEditProfile = document.querySelector('.popup_content_edit-profile');
+const popupAddCard = document.querySelector('.popup_content_add-place');
 const profile = document.querySelector('.profile');
 const editButton = profile.querySelector('.profile__edit-button');
+const addButton = profile.querySelector('.profile__add-button');
 const profileName = profile.querySelector('.profile__name');
 const profileProfession = profile.querySelector('.profile__profession');
-const form = popup.querySelector('.input-form');
-const closeButton = popup.querySelector('.popup__close-button');
-const inputName = popup.querySelector('.input-form__item_user_name');
-const inputJob = popup.querySelector('.input-form__item_user_job');
+const formEditProfile = popupEditProfile.querySelector('.input-form_content_edit-profile');
+const formAddPlace = popupAddCard.querySelector('.input-form_content_add-place');
+const closeButtons = document.querySelectorAll('.popup__close-button');
+const inputName = popupEditProfile.querySelector('.input-form__item_user_name');
+const inputJob = popupEditProfile.querySelector('.input-form__item_user_job');
+const inputCardName = popupAddCard.querySelector('.input-form__item_place_name');
+const inputCardLink = popupAddCard.querySelector('.input-form__item_place_link');
 const cardContainer = document.querySelector('.cards');
 
-function addCard(elem) {
+
+initialCards.reverse(); //шоб как в описании проектной работы)
+
+function addCard(elem) { //функция добавления карточки с местом, аргумент - объект с двумя ключами name и link
   const card = document.querySelector('#card').content.cloneNode(true);
+  const delButton = card.querySelector('.cards__del-button');
   card.querySelector('.cards__name').textContent = elem.name;
+  card.querySelector('.cards__image').alt = elem.name;
   card.querySelector('.cards__image').src = elem.link;
-  cardContainer.append(card);
+  delButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки удалить.
+    evt.target.parentNode.remove(); //удаляем карточку - она родитель для кнопки.
+  });
+  cardContainer.prepend(card);
 }
 
-function togglePopup() {
+function togglePopup(popup) { // открываем-закрываем поп-ап, в качестве аргумента - нужный поп-ап
+  console.log(popup);
   popup.classList.toggle('popup_is-opened');
 }
 
-function updateInputForm() {
+function updateFormEditProfile() { //обновляем данные в форме при открытии формы
   inputName.value = profileName.textContent;
   inputJob.value = profileProfession.textContent;
 }
 
-function formSubmitHandler(evt) {
+function formEditProfileSubmitHandler(evt) { //функция submit для формы редактирования профиля
   evt.preventDefault();
   let name = inputName.value;
   let job = inputJob.value;
   profileName.textContent = name;
   profileProfession.textContent = job;
-  togglePopup();
+  togglePopup(popupEditProfile);
 }
 
-editButton.addEventListener('click', function () {
-  togglePopup();
-  updateInputForm();
+function formAddPlaceSubmitHandler(evt) { //функция submit для формы добавления карточки
+  evt.preventDefault();
+  let newCard = {};
+  newCard.name = inputCardName.value;
+  newCard.link = inputCardLink.value;
+  addCard(newCard);
+  togglePopup(popupAddCard);
+  inputCardName.value = '';
+  inputCardLink.value = '';
+}
+editButton.addEventListener('click', function () { //обработчик кнопки редактирования профиля
+  togglePopup(popupEditProfile);
+  updateFormEditProfile();
 });
 
-closeButton.addEventListener('click', togglePopup);
+addButton.addEventListener('click', function () { //обработчик кнопки добавления карточки
+  togglePopup(popupAddCard);
+});
 
-form.addEventListener('submit', formSubmitHandler);
+closeButtons.forEach(el => { //добавляем обработчик на все кнопки закрытия из массива closeButtons.
+  el.addEventListener('click', function (evt) { togglePopup(evt.target.closest('.popup')) }); //обработчик кнопки закрытия - чтобы срабатывала для того поп-апа который открыт.
+})
 
-initialCards.forEach(el => {
+
+formEditProfile.addEventListener('submit', formEditProfileSubmitHandler); //обработчик submit для формы редактирования профиля
+
+formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler); //обработчик submit для формы добавления карточки
+
+initialCards.forEach(el => { //добавляем карточки при загрузке страницы
   addCard(el);
 });
