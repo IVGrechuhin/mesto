@@ -1,31 +1,32 @@
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Карабаш',
+    link: './images/place-karabash.jpg'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Откликной гребень',
+    link: './images/place-otkliknoy-greben.jpg'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Сим',
+    link: './images/place-sim.jpg'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Сугомак',
+    link: './images/place-sugomak.jpg'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Таганай',
+    link: './images/place-taganay.jpg'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Зюраткуль',
+    link: './images/place-zyuratkul.jpg'
   }
 ];
 const popupEditProfile = document.querySelector('.popup_content_edit-profile');
 const popupAddCard = document.querySelector('.popup_content_add-place');
+const popupImage = document.querySelector('.popup_content_image');
 const profile = document.querySelector('.profile');
 const editButton = profile.querySelector('.profile__edit-button');
 const addButton = profile.querySelector('.profile__add-button');
@@ -39,24 +40,38 @@ const inputJob = popupEditProfile.querySelector('.input-form__item_user_job');
 const inputCardName = popupAddCard.querySelector('.input-form__item_place_name');
 const inputCardLink = popupAddCard.querySelector('.input-form__item_place_link');
 const cardContainer = document.querySelector('.cards');
-
-
-initialCards.reverse(); //шоб как в описании проектной работы)
+const image = popupImage.querySelector('.popup__image');
+const imageCaption = popupImage.querySelector('.popup__image-caption');
 
 function addCard(elem) { //функция добавления карточки с местом, аргумент - объект с двумя ключами name и link
   const card = document.querySelector('#card').content.cloneNode(true);
   const delButton = card.querySelector('.cards__del-button');
+  const cardImage = card.querySelector('.cards__image');
+  const likeButton = card.querySelector('.cards__like-button');
   card.querySelector('.cards__name').textContent = elem.name;
-  card.querySelector('.cards__image').alt = elem.name;
-  card.querySelector('.cards__image').src = elem.link;
+  cardImage.alt = elem.name;
+  cardImage.src = elem.link;
+
+
+  cardImage.addEventListener('click', function () { //вешаем обработчик нажатия на карточку.
+    image.src = elem.link;
+    imageCaption.textContent = elem.name;
+    togglePopup(popupImage);
+  });
+
   delButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки удалить.
     evt.target.parentNode.remove(); //удаляем карточку - она родитель для кнопки.
   });
+
+  likeButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки лайк.
+    evt.target.classList.toggle('cards__like-button_is-liked'); //меняем у неё модификатор на лайк или обратно
+  });
+
   cardContainer.prepend(card);
 }
 
+
 function togglePopup(popup) { // открываем-закрываем поп-ап, в качестве аргумента - нужный поп-ап
-  console.log(popup);
   popup.classList.toggle('popup_is-opened');
 }
 
@@ -67,8 +82,8 @@ function updateFormEditProfile() { //обновляем данные в форм
 
 function formEditProfileSubmitHandler(evt) { //функция submit для формы редактирования профиля
   evt.preventDefault();
-  let name = inputName.value;
-  let job = inputJob.value;
+  const name = inputName.value;
+  const job = inputJob.value;
   profileName.textContent = name;
   profileProfession.textContent = job;
   togglePopup(popupEditProfile);
@@ -76,12 +91,12 @@ function formEditProfileSubmitHandler(evt) { //функция submit для фо
 
 function formAddPlaceSubmitHandler(evt) { //функция submit для формы добавления карточки
   evt.preventDefault();
-  let newCard = {};
+  const newCard = {};
   newCard.name = inputCardName.value;
   newCard.link = inputCardLink.value;
   addCard(newCard);
   togglePopup(popupAddCard);
-  inputCardName.value = '';
+  inputCardName.value = ''; //обнуляем значения в полях ввода
   inputCardLink.value = '';
 }
 editButton.addEventListener('click', function () { //обработчик кнопки редактирования профиля
