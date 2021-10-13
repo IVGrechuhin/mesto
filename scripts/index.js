@@ -43,7 +43,8 @@ const cardContainer = document.querySelector('.cards');
 const image = popupImage.querySelector('.popup__image');
 const imageCaption = popupImage.querySelector('.popup__image-caption');
 
-function addCard(elem) { //функция добавления карточки с местом, аргумент - объект с двумя ключами name и link
+
+function createCard(elem) { //функция создания карточки с местом, аргумент - объект с двумя ключами name и link
   const card = document.querySelector('#card').content.cloneNode(true);
   const delButton = card.querySelector('.cards__del-button');
   const cardImage = card.querySelector('.cards__image');
@@ -52,9 +53,9 @@ function addCard(elem) { //функция добавления карточки 
   cardImage.alt = elem.name;
   cardImage.src = elem.link;
 
-
   cardImage.addEventListener('click', function () { //вешаем обработчик нажатия на карточку.
     image.src = elem.link;
+    image.alt = elem.name;
     imageCaption.textContent = elem.name;
     togglePopup(popupImage);
   });
@@ -66,7 +67,11 @@ function addCard(elem) { //функция добавления карточки 
   likeButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки лайк.
     evt.target.classList.toggle('cards__like-button_is-liked'); //меняем у неё модификатор на лайк или обратно
   });
+  return card;
+}
 
+function addCard(elem) { //функция добавления карточки с местом, аргумент - объект с двумя ключами name и link
+  const card = createCard(elem);
   cardContainer.prepend(card);
 }
 
