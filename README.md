@@ -34,4 +34,4 @@
 
 # Ссылка на GHPages
 
-[Mesto - Россия - "ivgrechuhin.github.io/russian-travel/"](https://ivgrechuhin.github.io/mesto/)
+[Mesto - Россия - "ivgrechuhin.github.io/mesto/"](https://ivgrechuhin.github.io/mesto/)
