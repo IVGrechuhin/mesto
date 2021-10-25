@@ -32,13 +32,13 @@ const editButton = profile.querySelector('.profile__edit-button');
 const addButton = profile.querySelector('.profile__add-button');
 const profileName = profile.querySelector('.profile__name');
 const profileProfession = profile.querySelector('.profile__profession');
-const formEditProfile = popupEditProfile.querySelector('.input-form_content_edit-profile');
-const formAddPlace = popupAddCard.querySelector('.input-form_content_add-place');
+const formEditProfile = popupEditProfile.querySelector('.form_content_edit-profile');
+const formAddPlace = popupAddCard.querySelector('.form_content_add-place');
 const closeButtons = document.querySelectorAll('.popup__close-button');
-const inputName = popupEditProfile.querySelector('.input-form__item_user_name');
-const inputJob = popupEditProfile.querySelector('.input-form__item_user_job');
-const inputCardName = popupAddCard.querySelector('.input-form__item_place_name');
-const inputCardLink = popupAddCard.querySelector('.input-form__item_place_link');
+const inputName = popupEditProfile.querySelector('.form__item_user_name');
+const inputJob = popupEditProfile.querySelector('.form__item_user_job');
+const inputCardName = popupAddCard.querySelector('.form__item_place_name');
+const inputCardLink = popupAddCard.querySelector('.form__item_place_link');
 const cardContainer = document.querySelector('.cards');
 const image = popupImage.querySelector('.popup__image');
 const imageCaption = popupImage.querySelector('.popup__image-caption');
@@ -85,8 +85,7 @@ function updateFormEditProfile() { //обновляем данные в форм
   inputJob.value = profileProfession.textContent;
 }
 
-function formEditProfileSubmitHandler(evt) { //функция submit для формы редактирования профиля
-  evt.preventDefault();
+function formEditProfileSubmitHandler() { //функция submit для формы редактирования профиля
   const name = inputName.value;
   const job = inputJob.value;
   profileName.textContent = name;
@@ -94,8 +93,7 @@ function formEditProfileSubmitHandler(evt) { //функция submit для фо
   togglePopup(popupEditProfile);
 }
 
-function formAddPlaceSubmitHandler(evt) { //функция submit для формы добавления карточки
-  evt.preventDefault();
+function formAddPlaceSubmitHandler() { //функция submit для формы добавления карточки
   const newCard = {};
   newCard.name = inputCardName.value;
   newCard.link = inputCardLink.value;

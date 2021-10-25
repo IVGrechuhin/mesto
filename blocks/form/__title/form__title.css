@@ -1,4 +1,4 @@
-.input-form__title {
+.form__title {
   margin: 0 0 45px;
   font-style: normal;
   font-weight: 900;
@@ -7,7 +7,7 @@
 }
 
 @media (max-width: 662px) {
-  .input-form__title {
+  .form__title {
     margin-bottom: 70px;
     font-size: 18px;
     line-height: 22px;
