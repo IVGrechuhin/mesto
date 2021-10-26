@@ -1,0 +1,8 @@
+.form__input-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.form__input-wrapper:nth-child(2) {
+  margin-bottom: 30px;
+}

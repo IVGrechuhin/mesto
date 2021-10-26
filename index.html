@@ -36,26 +36,30 @@
       <div class="popup__container">
         <form class="form form_content_edit-profile" name="formEdit" novalidate>
           <h2 class="form__title">Редактировать профиль</h2>
-          <input
-            type="text"
-            name="userName"
-            minlength="2"
-            maxlength="40"
-            class="form__item form__item_user_name"
-            id="user-name"
-            required
-          />
-          <span class="form__input-error user-name-error"></span>
-          <input
-            type="text"
-            name="userJob"
-            minlength="2"
-            maxlength="200"
-            class="form__item form__item_user_job"
-            id="user-job"
-            required
-          />
-          <span class="form__input-error user-job-error"></span>
+          <div class="form__input-wrapper">
+            <input
+              type="text"
+              name="userName"
+              minlength="2"
+              maxlength="40"
+              class="form__item form__item_user_name"
+              id="user-name"
+              required
+            />
+            <span class="form__input-error user-name-error"></span>
+          </div>
+          <div class="form__input-wrapper">
+            <input
+              type="text"
+              name="userJob"
+              minlength="2"
+              maxlength="200"
+              class="form__item form__item_user_job"
+              id="user-job"
+              required
+            />
+            <span class="form__input-error user-job-error"></span>
+          </div>
           <input type="submit" class="form__save-button" value="Сохранить" />
         </form>
         <button type="button" class="popup__close-button"></button>
@@ -65,26 +69,30 @@
       <div class="popup__container">
         <form class="form form_content_add-place" name="formAdd" novalidate>
           <h2 class="form__title">Новое место</h2>
-          <input
-            type="text"
-            name="placeName"
-            placeholder="Название"
-            minlength="1"
-            maxlength="30"
-            class="form__item form__item_place_name"
-            id="place-name"
-            required
-          />
-          <span class="form__input-error place-name-error"></span>
-          <input
-            type="url"
-            name="placeLink"
-            placeholder="Ссылка на картинку"
-            class="form__item form__item_place_link"
-            id="place-link"
-            required
-          />
-          <span class="form__input-error place-link-error"></span>
+          <div class="form__input-wrapper">
+            <input
+              type="text"
+              name="placeName"
+              placeholder="Название"
+              minlength="1"
+              maxlength="30"
+              class="form__item form__item_place_name"
+              id="place-name"
+              required
+            />
+            <span class="form__input-error place-name-error"></span>
+          </div>
+          <div class="form__input-wrapper">
+            <input
+              type="url"
+              name="placeLink"
+              placeholder="Ссылка на картинку"
+              class="form__item form__item_place_link"
+              id="place-link"
+              required
+            />
+            <span class="form__input-error place-link-error"></span>
+          </div>
           <input type="submit" class="form__save-button" value="Создать" />
         </form>
         <button type="button" class="popup__close-button"></button>

@@ -1,4 +1,5 @@
 .form__item {
+  width: 100%;
   padding: 0 0 10px 0;
   margin: 0;
   font-family: inherit;
@@ -9,8 +10,4 @@
   outline: none;
   border: none;
   border-bottom: 1px rgba(0, 0, 0, 0.2) solid;
-}
-
-.form__item:nth-child(2) {
-  margin-bottom: 30px;
 }

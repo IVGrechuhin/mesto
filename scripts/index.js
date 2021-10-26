@@ -34,7 +34,6 @@ const profileName = profile.querySelector('.profile__name');
 const profileProfession = profile.querySelector('.profile__profession');
 const formEditProfile = popupEditProfile.querySelector('.form_content_edit-profile');
 const formAddPlace = popupAddCard.querySelector('.form_content_add-place');
-const closeButtons = document.querySelectorAll('.popup__close-button');
 const inputName = popupEditProfile.querySelector('.form__item_user_name');
 const inputJob = popupEditProfile.querySelector('.form__item_user_job');
 const inputCardName = popupAddCard.querySelector('.form__item_place_name');
@@ -42,7 +41,7 @@ const inputCardLink = popupAddCard.querySelector('.form__item_place_link');
 const cardContainer = document.querySelector('.cards');
 const image = popupImage.querySelector('.popup__image');
 const imageCaption = popupImage.querySelector('.popup__image-caption');
-
+let keydownListenerFlag = false; //флаг наличия слушателя keydown
 
 function createCard(elem) { //функция создания карточки с местом, аргумент - объект с двумя ключами name и link
   const card = document.querySelector('#card').content.cloneNode(true);
@@ -58,6 +57,7 @@ function createCard(elem) { //функция создания карточки �
     image.alt = elem.name;
     imageCaption.textContent = elem.name;
     togglePopup(popupImage);
+    toggleKeydownEventListener();
   });
 
   delButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки удалить.
@@ -80,6 +80,16 @@ function togglePopup(popup) { // открываем-закрываем поп-а
   popup.classList.toggle('popup_is-opened');
 }
 
+function toggleKeydownEventListener() { //добавляем-удаляем слушатель keydown для возможности закрытия поп-апа esc
+  if (!keydownListenerFlag) {
+    document.addEventListener('keydown', keydownHandler);
+    keydownListenerFlag = true;
+  } else {
+    document.removeEventListener('keydown', keydownHandler);
+    keydownListenerFlag = false;
+  }
+}
+
 function updateFormEditProfile() { //обновляем данные в форме при открытии формы
   inputName.value = profileName.textContent;
   inputJob.value = profileProfession.textContent;
@@ -90,7 +100,7 @@ function formEditProfileSubmitHandler() { //функция submit для фор�
   const job = inputJob.value;
   profileName.textContent = name;
   profileProfession.textContent = job;
-  togglePopup(popupEditProfile);
+  closePopup(popupEditProfile);
 }
 
 function formAddPlaceSubmitHandler() { //функция submit для формы добавления карточки
@@ -98,22 +108,80 @@ function formAddPlaceSubmitHandler() { //функция submit для формы
   newCard.name = inputCardName.value;
   newCard.link = inputCardLink.value;
   addCard(newCard);
-  togglePopup(popupAddCard);
-  inputCardName.value = ''; //обнуляем значения в полях ввода
-  inputCardLink.value = '';
+  closePopup(popupAddCard);
 }
+
+function clearFormInputs(form) { //функция очистки полей формы
+  const inputs = Array.from(form.querySelectorAll('.form__item'));
+  inputs.forEach((input) => {
+    input.value = '';
+    input.classList.remove('form__item_type_error');//удаляем класс ошибки с поля ввода
+  });
+}
+
+function clearFormErrors(form) { //функция очистки ошибок формы (иначе если закрыть с ошибками, то при открытии они остаются)
+  const errors = Array.from(form.querySelectorAll('.form__input-error'));
+  errors.forEach((error) => {
+    error.textContent = '';
+    error.classList.remove('form__input-error_visible');
+  });
+}
+
+function disableSubmitButton(form) { //функция дезактивации кнопки сабмит (чтобы не было багов при открытии-закрытии форм)
+  const button = form.querySelector('.form__save-button');
+  button.disabled = true;
+  button.classList.add('form__save-button_disabled');
+}
+
+function enableSubmitButton(form) { //функция активации кнопки сабмит (чтобы не было багов при открытии-закрытии форм)
+  const button = form.querySelector('.form__save-button');
+  button.disabled = false;
+  button.classList.remove('form__save-button_disabled');
+}
+
+function closePopup(popup) { //закравыем попап
+  if (!(popup === popupImage)) {
+    const form = popup.querySelector('.form');
+    clearFormInputs(form);
+    clearFormErrors(form);
+    disableSubmitButton(form);
+  }
+  togglePopup(popup);
+  toggleKeydownEventListener();
+}
+
+function setEventListenersToPopups() { //фунция установки слушателей кликов на все поп-апы
+  const popups = Array.from(document.querySelectorAll('.popup'));
+  popups.forEach((popup) => {
+    popup.addEventListener('click', (event) => {
+      if ((event.target === event.currentTarget) || (event.target.classList.contains('popup__close-button'))) {
+        closePopup(popup);
+      }
+    })
+  })
+}
+
+function keydownHandler(event) { //оброботчик события нажатия клавиши esc
+  if (event.key === 'Escape') {
+    const popup = document.querySelector('.popup_is-opened');
+    closePopup(popup);
+  }
+}
+
+setEventListenersToPopups();
+
 editButton.addEventListener('click', function () { //обработчик кнопки редактирования профиля
   togglePopup(popupEditProfile);
+  toggleKeydownEventListener();
   updateFormEditProfile();
+  enableSubmitButton(formEditProfile);
 });
 
 addButton.addEventListener('click', function () { //обработчик кнопки добавления карточки
   togglePopup(popupAddCard);
+  toggleKeydownEventListener();
+  disableSubmitButton(formAddPlace);
 });
-
-closeButtons.forEach(el => { //добавляем обработчик на все кнопки закрытия из массива closeButtons.
-  el.addEventListener('click', function (evt) { togglePopup(evt.target.closest('.popup')) }); //обработчик кнопки закрытия - чтобы срабатывала для того поп-апа который открыт.
-})
 
 
 formEditProfile.addEventListener('submit', formEditProfileSubmitHandler); //обработчик submit для формы редактирования профиля
