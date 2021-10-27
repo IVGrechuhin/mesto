@@ -41,7 +41,6 @@ const inputCardLink = popupAddCard.querySelector('.form__item_place_link');
 const cardContainer = document.querySelector('.cards');
 const image = popupImage.querySelector('.popup__image');
 const imageCaption = popupImage.querySelector('.popup__image-caption');
-let keydownListenerFlag = false; //флаг наличия слушателя keydown
 
 function createCard(elem) { //функция создания карточки с местом, аргумент - объект с двумя ключами name и link
   const card = document.querySelector('#card').content.cloneNode(true);
@@ -56,8 +55,7 @@ function createCard(elem) { //функция создания карточки �
     image.src = elem.link;
     image.alt = elem.name;
     imageCaption.textContent = elem.name;
-    togglePopup(popupImage);
-    toggleKeydownEventListener();
+    openPopup(popupImage);
   });
 
   delButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки удалить.
@@ -75,20 +73,6 @@ function addCard(elem) { //функция добавления карточки 
   cardContainer.prepend(card);
 }
 
-
-function togglePopup(popup) { // открываем-закрываем поп-ап, в качестве аргумента - нужный поп-ап
-  popup.classList.toggle('popup_is-opened');
-}
-
-function toggleKeydownEventListener() { //добавляем-удаляем слушатель keydown для возможности закрытия поп-апа esc
-  if (!keydownListenerFlag) {
-    document.addEventListener('keydown', keydownHandler);
-    keydownListenerFlag = true;
-  } else {
-    document.removeEventListener('keydown', keydownHandler);
-    keydownListenerFlag = false;
-  }
-}
 
 function updateFormEditProfile() { //обновляем данные в форме при открытии формы
   inputName.value = profileName.textContent;
@@ -140,14 +124,13 @@ function enableSubmitButton(form) { //функция активации кноп
 }
 
 function closePopup(popup) { //закравыем попап
-  if (!(popup === popupImage)) {
-    const form = popup.querySelector('.form');
-    clearFormInputs(form);
-    clearFormErrors(form);
-    disableSubmitButton(form);
-  }
-  togglePopup(popup);
-  toggleKeydownEventListener();
+  popup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', keydownHandler);
+}
+
+function openPopup(popup) { //открываем попап
+  popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', keydownHandler);
 }
 
 function setEventListenersToPopups() { //фунция установки слушателей кликов на все поп-апы
@@ -171,16 +154,19 @@ function keydownHandler(event) { //оброботчик события нажа�
 setEventListenersToPopups();
 
 editButton.addEventListener('click', function () { //обработчик кнопки редактирования профиля
-  togglePopup(popupEditProfile);
-  toggleKeydownEventListener();
-  updateFormEditProfile();
+  clearFormInputs(formEditProfile);
+  clearFormErrors(formEditProfile);
   enableSubmitButton(formEditProfile);
+  updateFormEditProfile();
+  openPopup(popupEditProfile);
+
 });
 
 addButton.addEventListener('click', function () { //обработчик кнопки добавления карточки
-  togglePopup(popupAddCard);
-  toggleKeydownEventListener();
+  clearFormInputs(formAddPlace);
+  clearFormErrors(formAddPlace);
   disableSubmitButton(formAddPlace);
+  openPopup(popupAddCard);
 });
 
 
