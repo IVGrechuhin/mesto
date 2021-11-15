@@ -1,3 +1,6 @@
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
 const initialCards = [
   {
     name: 'Карабаш',
@@ -24,9 +27,9 @@ const initialCards = [
     link: './images/place-zyuratkul.jpg'
   }
 ];
+
 const popupEditProfile = document.querySelector('.popup_content_edit-profile');
 const popupAddCard = document.querySelector('.popup_content_add-place');
-const popupImage = document.querySelector('.popup_content_image');
 const profile = document.querySelector('.profile');
 const editButton = profile.querySelector('.profile__edit-button');
 const addButton = profile.querySelector('.profile__add-button');
@@ -39,38 +42,23 @@ const inputJob = popupEditProfile.querySelector('.form__item_user_job');
 const inputCardName = popupAddCard.querySelector('.form__item_place_name');
 const inputCardLink = popupAddCard.querySelector('.form__item_place_link');
 const cardContainer = document.querySelector('.cards');
-const image = popupImage.querySelector('.popup__image');
-const imageCaption = popupImage.querySelector('.popup__image-caption');
 
-function createCard(elem) { //функция создания карточки с местом, аргумент - объект с двумя ключами name и link
-  const card = document.querySelector('#card').content.cloneNode(true);
-  const delButton = card.querySelector('.cards__del-button');
-  const cardImage = card.querySelector('.cards__image');
-  const likeButton = card.querySelector('.cards__like-button');
-  card.querySelector('.cards__name').textContent = elem.name;
-  cardImage.alt = elem.name;
-  cardImage.src = elem.link;
-
-  cardImage.addEventListener('click', function () { //вешаем обработчик нажатия на карточку.
-    image.src = elem.link;
-    image.alt = elem.name;
-    imageCaption.textContent = elem.name;
-    openPopup(popupImage);
-  });
-
-  delButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки удалить.
-    evt.target.parentNode.remove(); //удаляем карточку - она родитель для кнопки.
-  });
-
-  likeButton.addEventListener('click', function (evt) { //вешаем обработчик кнопки лайк.
-    evt.target.classList.toggle('cards__like-button_is-liked'); //меняем у неё модификатор на лайк или обратно
-  });
-  return card;
+const classSelector = {
+  inputSelector: '.form__item',
+  submitButtonSelector: '.form__save-button',
+  inactiveButtonClass: 'form__save-button_disabled',
+  inputErrorClass: 'form__item_type_error',
+  errorClass: 'form__input-error_visible',
 }
 
+const formAddPlaceValidator = new FormValidator(classSelector, formAddPlace);
+
+const formEditProfileValidator = new FormValidator(classSelector, formEditProfile);
+
 function addCard(elem) { //функция добавления карточки с местом, аргумент - объект с двумя ключами name и link
-  const card = createCard(elem);
-  cardContainer.prepend(card);
+  const card = new Card(elem.name, elem.link, '#card');
+  const cardElement = card.createCard(openPopup);
+  cardContainer.prepend(cardElement);
 }
 
 
@@ -171,8 +159,10 @@ addButton.addEventListener('click', function () { //обработчик кно�
 
 
 formEditProfile.addEventListener('submit', formEditProfileSubmitHandler); //обработчик submit для формы редактирования профиля
-
 formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler); //обработчик submit для формы добавления карточки
+
+formAddPlaceValidator.enableValidation(); //включаем валидацию форм
+formEditProfileValidator.enableValidation();
 
 initialCards.forEach(el => { //добавляем карточки при загрузке страницы
   addCard(el);
